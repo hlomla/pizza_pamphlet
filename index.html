@@ -14,11 +14,80 @@
     <div>
         <div>
         </div>
-        <div class="container">
+        <div class="container" x-data="{totalQuantityForLarge: 0,
+             totalQuantityForSmall: 0,
+              totalQuantityForMedium: 0,
+              totalQuantity() {
+                  return this.totalQuantityForSmall + this.totalQuantityForMedium + this.totalQuantityForLarge
+              },
+              smallTotalPrice() {
+                  return this.totalQuantityForSmall * 48.99;
+              },
+              mediumTotalPrice() {
+                return this.totalQuantityForMedium * 78.99;
+            },
+              largeTotalPrice() {
+                return this.totalQuantityForLarge * 114.99;
+            },
+              totalPrice(){
+                return this.smallTotalPrice() + this.mediumTotalPrice() + this.largeTotalPrice()
+              }, 
+            }">
             <div class="row">
                 <div class="header">
                     <h1 style="background-color:#e85d04; text-align: center;">Perfect Pizza</h1>
                 </div>
+                <div class="cartTotal " >
+                    <a href="#">
+                      <img src="cart.jpg" alt="">
+                    </a>
+                    <span x-text="totalQuantity()"></span>
+                  </div>
+              
+              
+                  <div class="cart" >
+                      <img src="cart.jpg" alt="">
+                    <h3>Shopping Cart</h3>
+              
+                      <table>
+                        <tr>
+                            <th>Type</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Add Or Remove</th>
+                        </tr>
+
+                        <tr>
+                          <td><strong>Small pizzas total:</strong></td>
+                          <td><span x-text ="smallTotalPrice().toFixed(2)">0.00</span></td>
+                          <td><span x-text="totalQuantityForSmall"></span></td>
+                          <td><span class="addOrRemove"></span></td>
+
+                        </tr>
+              
+                        <tr>
+                          <td><strong>Medium pizzas total:</strong></td>
+                          <td><span x-text=" mediumTotalPrice().toFixed(2)">0.00</span></td>
+                          <td><span x-text="totalQuantityForMedium"></span></td>
+                          <td><span class="addOrRemove"></span></td>
+
+                        </tr>
+                        <tr>
+                          <td><strong>Large pizza total:</strong></td>
+                          <td><span x-text="largeTotalPrice().toFixed(2)">0.00</span></td>
+                          <td><span x-text="totalQuantityForLarge"></span></td>
+                          <td><span class="addOrRemove"></span></td>
+
+                        </tr>
+                        <tr>
+                          <td><strong>Total price</strong></td>
+                          <td><span x-text="totalPrice().toFixed(2)">0.00</span></td>
+                          <td><span class=""></span></td>
+                          <td><span class=""></span></td>
+
+                        </tr>
+                      </table>
+                  </div>
                 <div class="specials">
                     <div class="col-3">
                         <div class="small">
@@ -33,12 +102,8 @@
                                     <li>3 or less other toppings.</li>
                                 </ul>
                             </i>
-                            <!-- <button class="Order">Order</button> -->
-                            <button class="Purchase">Purchase</button>
-
-                            <div x-data="{ Order: 0}">
-                                <p x-text="Order">Order has been placed</p>
-                                <button @click="Order++">Order</button>
+                            <div x-data>
+                                <button @click="totalQuantityForSmall++">Order</button>
                             </div>
                         </div>
                     </div>
@@ -53,8 +118,9 @@
                                 2 or less meat topping.
                                 3 or less other toppings.
                             </i>
-                            <button class="Order">Order</button>
-                            <button class="Purchase">Purchase</button>
+                            <div x-data>
+                                <button @click="totalQuantityForMedium++">Order</button>
+                            </div>
                         </div>
                     </div>
                     <div class="col-3">
@@ -68,8 +134,9 @@
                                 3 meat toppings max.
                                 3 or less other toppings.
                             </i>
-                            <button class="Order">Order</button>
-                            <button class="Purchase">Purchase</button>
+                            <div x-data>
+                                <button @click="totalQuantityForLarge++">Order</button>
+                            </div>
                         </div>
                     </div>
                 </div>
