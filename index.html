@@ -33,7 +33,8 @@
               totalPrice(){
                 return this.smallTotalPrice() + this.mediumTotalPrice() + this.largeTotalPrice()
               }, 
-              checkout: false, paid:''
+              checkout: false, 
+              payment: ''
             }">
 
             <div x-data="{  addOrRemove : 1}">
@@ -122,14 +123,10 @@
                                 </template>
 
                                 <template x-if="checkout">
-                                <label >Amount to be paid: R<input
-                                   style="padding-bottom: 0.8em;"
-                                    type="number"
-                                    min="0"
-                                    step="0.01"
-                                    x-model="paid"/></label>
+                                <label >Payment amount: R <input
+                                    x-model="payment"/></label>
                                 </template>
-                                <template x-if="paid == totalQuantity && checkout">
+                                <template x-if="payment == checkout && totalQuantity() ">
                                 <span>
                                   <div style="color: green">Successful payment!</div>
                                   <button @click="totalQuantityForSmall=0; totalQuantityForMedium=0; totalQuantityForLarge=0; checkout=false;">
@@ -137,7 +134,7 @@
                                   </button>
                                 </span>
                                 </template>
-                                <template x-if="(parseInt(paid) < totalQuantity && paid != totalPrice && checkout)">
+                                <template x-if="(parseInt(payment) > totalQuantity() && payment != totalPrice && checkout)">
                                 <span>
                                   <div style="color: red">insufficient funds</div>
                                   <button @click="totalQuantityForSmall=0; totalQuantityForMedium=0; totalQuantityForLarge=0; checkout=false;">
@@ -146,14 +143,14 @@
                                 </span>
                                 </template>
                                 
-                                <template x-if="parseInt(paid) > totalQuantity && checkout">
+                                <template x-if="parseInt(payment) > totalQuantity() && checkout">
                                 <span>
                                   <div style="color: green">
-                                    successful payment, change: R<span
-                                      x-text="(parseInt(paid) - totalPrice).toFixed(2)"
+                                    Successful payment, change is: R<span
+                                      x-text="(parseInt(payment) - totalPrice()).toFixed(2)"
                                     ></span>
                                   </div>
-                                  <button @click="totalQuantityForSmall=0; totalQuantityForMedium=0; totalQuantityForLarge=0; checkout=false; paid=''">
+                                  <button @click="totalQuantityForSmall=0; totalQuantityForMedium=0; totalQuantityForLarge=0; checkout=false; payment=''">
                                     Clear Order
                                   </button>
                                 </span>
