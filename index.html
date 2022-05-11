@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width">
     <title>Hlomla's Pizza Pamphlet</title>
     <link rel="stylesheet" href="simple-grid.css">
+    <script src="https://kit.fontawesome.com/059757b1b7.js" crossorigin="anonymous"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 </head>
@@ -14,9 +15,9 @@
     <div>
         <div>
         </div>
-        <div class="container" x-data="{totalQuantityForLarge: 0,
-             totalQuantityForSmall: 0,
-              totalQuantityForMedium: 0,
+        <div class="container" x-data="{totalQuantityForLarge: 0.00,
+             totalQuantityForSmall: 0.00,
+              totalQuantityForMedium: 0.00,
               totalQuantity() {
                   return this.totalQuantityForSmall + this.totalQuantityForMedium + this.totalQuantityForLarge
               },
@@ -32,67 +33,140 @@
               totalPrice(){
                 return this.smallTotalPrice() + this.mediumTotalPrice() + this.largeTotalPrice()
               }, 
+              checkout: false, paid:''
             }">
+
+            <div x-data="{  addOrRemove : 1}">
+
+            </div>
             <div class="row">
                 <div class="header">
-                    <h1 style="background-color:#e85d04; text-align: center;">Perfect Pizza</h1>
+                    <h1 style="background-color:#9d0208; text-align: center;">Perfect Pizza</h1>
                 </div>
-                <div class="cartTotal " >
+                <div class="cartTotal ">
                     <a href="#">
-                      <img src="./cart.jpg" alt="">
+                        <img src="./cart.jpg" alt="">
                     </a>
                     <span x-text="totalQuantity()"></span>
-                  </div>
-              
-              
-                  <div class="cart" >
-                      <img src="./cart.jpg" alt="">
+                </div>
+
+                <div class="cart" x-show="totalQuantityForSmall != 0 || totalQuantityForMedium != 0 || totalQuantityForLarge != 0">
+                    <img src="./cart.jpg" alt="">
                     <h3>Shopping Cart</h3>
-              
-                      <table>
+
+                    <table>
                         <tr>
                             <th>Type</th>
                             <th>Price</th>
                             <th>Quantity</th>
                             <th>Add Or Remove</th>
-                        </tr>
-
+                        </tr> 
+                        
+                        <template x-if="!checkout">           
+                            <template x-if="totalQuantityForSmall > 0">
                         <tr>
-                          <td><strong>Small pizzas total:</strong></td>
-                          <td><span x-text ="smallTotalPrice().toFixed(2)">0.00</span></td>
-                          <td><span x-text="totalQuantityForSmall"></span></td>
-                          <td><span class="addOrRemove"></span></td>
+                            <td><strong>Small pizzas total:</strong></td>
+                            
+                                    <td> R<span x-text="(totalQuantityForSmall * 48.99).toFixed(2)"></span></td>
+                                   
+                                    <td><span x-text="totalQuantityForSmall"></span></td>
+                                    
+                                    <td><span class="add"><button @click="totalQuantityForSmall++"><i
+                                        class="fa-solid fa-circle-plus"></i></button>
+                                        <button class="remove" @click="totalQuantityForSmall--"><i
+                                            class="fa-solid fa-circle-minus"></i></button></span></td>
+                                        </tr>
+                                    </template>
+                                </template>
 
-                        </tr>
-              
+                        <template x-if="!checkout">
+                            <template x-if="totalQuantityForMedium > 0">
                         <tr>
-                          <td><strong>Medium pizzas total:</strong></td>
-                          <td><span x-text=" mediumTotalPrice().toFixed(2)">0.00</span></td>
-                          <td><span x-text="totalQuantityForMedium"></span></td>
-                          <td><span class="addOrRemove"></span></td>
-
-                        </tr>
+                            <td><strong>Medium pizzas total:</strong></td>
+                                
+                                    <td> R<span x-text="(totalQuantityForMedium * 78.99).toFixed(2)"></span></td>
+                                    
+                                    <td><span x-text="totalQuantityForMedium"></span></td>
+                                    
+                                    <td><span class="add"><button @click="totalQuantityForMedium++"><i
+                                        class="fa-solid fa-circle-plus"></i></button>
+                                        <button class="remove" @click="totalQuantityForMedium--"><i
+                                            class="fa-solid fa-circle-minus"></i></button></span></td>
+                                            
+                                        </tr>
+                                    </template>
+                                </template>
+                                        <template x-if="!checkout">
+                                            <template x-if="totalQuantityForLarge > 0">
                         <tr>
-                          <td><strong>Large pizza total:</strong></td>
-                          <td><span x-text="largeTotalPrice().toFixed(2)">0.00</span></td>
-                          <td><span x-text="totalQuantityForLarge"></span></td>
-                          <td><span class="addOrRemove"></span></td>
-
-                        </tr>
+                            <td><strong>Large pizza total:</strong></td>
+                                
+                                    <td> R<span x-text="(totalQuantityForLarge * 114.99).toFixed(2)"></span></td>
+                                    
+                                    <td><span x-text="totalQuantityForLarge"></span></td>
+                                    
+                                    <td><span class="add"><button @click="totalQuantityForLarge++"><i
+                                        class="fa-solid fa-circle-plus"></i></button>
+                                        <button class="remove" @click="totalQuantityForLarge--"><i
+                                            class="fa-solid fa-circle-minus"></i></button></span></td>
+                                        </tr>
+                                    </template>
+                                        </template>
                         <tr>
-                          <td><strong>Total price</strong></td>
-                          <td><span x-text="totalPrice().toFixed(2)">0.00</span></td>
-                          <td><span class=""></span></td>
-                          <td><span class=""></span></td>
+                            <td><strong>Total price</strong></td>
+                            <td><span x-text="totalPrice().toFixed(2)">0.00</span></td>
+                            <template x-if="!checkout">
+                           
+                                  
+                                <button class="fa-solid" @click="checkout=!checkout">Checkout</button>
+                                </template>
+
+                                <template x-if="checkout">
+                                <label >Amount to be paid: R<input
+                                   style="padding-bottom: 0.8em;"
+                                    type="number"
+                                    min="0"
+                                    step="0.01"
+                                    x-model="paid"/></label>
+                                </template>
+                                <template x-if="paid == totalQuantity && checkout">
+                                <span>
+                                  <div style="color: green">Successful payment!</div>
+                                  <button @click="totalQuantityForSmall=0; totalQuantityForMedium=0; totalQuantityForLarge=0; checkout=false;">
+                                    Clear Order
+                                  </button>
+                                </span>
+                                </template>
+                                <template x-if="(parseInt(paid) < totalQuantity && paid != totalPrice && checkout)">
+                                <span>
+                                  <div style="color: red">insufficient funds</div>
+                                  <button @click="totalQuantityForSmall=0; totalQuantityForMedium=0; totalQuantityForLarge=0; checkout=false;">
+                                    Cancel Order
+                                  </button>
+                                </span>
+                                </template>
+                                
+                                <template x-if="parseInt(paid) > totalQuantity && checkout">
+                                <span>
+                                  <div style="color: green">
+                                    successful payment, change: R<span
+                                      x-text="(parseInt(paid) - totalPrice).toFixed(2)"
+                                    ></span>
+                                  </div>
+                                  <button @click="totalQuantityForSmall=0; totalQuantityForMedium=0; totalQuantityForLarge=0; checkout=false; paid=''">
+                                    Clear Order
+                                  </button>
+                                </span>
+                                </template>
+                                </div>
 
                         </tr>
-                      </table>
-                  </div>
+                    </table>
+                </div>
                 <div class="specials">
                     <div class="col-3">
                         <div class="small">
-                            <img src="https://image.shutterstock.com/image-vector/italian-pizza-tomato-sausage-olive-600w-554691619.jpg"
-                                alt="">
+                            <img src="pizza.jpeg" alt="">
                             <h2>Small Pizza</h2>
                             <h3>R48.99</h3>
                             <i>
@@ -103,14 +177,13 @@
                                 </ul>
                             </i>
                             <div x-data>
-                                <button @click="totalQuantityForSmall++">Order</button>
+                                <button class="button" @click="totalQuantityForSmall++">Order</button>
                             </div>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="medium">
-                            <img src="https://image.shutterstock.com/image-vector/italian-pizza-tomato-sausage-olive-600w-554691619.jpg"
-                                alt="">
+                            <img src="pizza.jpeg" alt="">
                             <h2>Medium Pizza</h2>
                             <h3>R78.99</h3>
                             <i>
@@ -119,14 +192,13 @@
                                 3 or less other toppings.
                             </i>
                             <div x-data>
-                                <button @click="totalQuantityForMedium++">Order</button>
+                                <button class="button" @click="totalQuantityForMedium++">Order</button>
                             </div>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="large">
-                            <img src="https://image.shutterstock.com/image-vector/italian-pizza-tomato-sausage-olive-600w-554691619.jpg"
-                                alt="">
+                            <img src="pizza.jpeg" alt="">
                             <h2>Large Pizza</h2>
                             <h3>R114.99</h3>
                             <i>
@@ -135,7 +207,7 @@
                                 3 or less other toppings.
                             </i>
                             <div x-data>
-                                <button @click="totalQuantityForLarge++">Order</button>
+                                <button class="button" @click="totalQuantityForLarge++">Order</button>
                             </div>
                         </div>
                     </div>
@@ -143,24 +215,24 @@
             </div>
 
             <div class="row">
-                <div class="footer">          
-                        <div class="contact">
-                            <strong>Contact us at:</strong>
-                            (021)-541-1000
+                <div class="footer">
+                    <div class="contact">
+                        <strong>Contact us at:</strong>
+                        (021)-541-1000
 
-                            <strong>twitter /fb /insta </strong> @perfectpizza
-                        </div>
-                    
-                    
-                        <div class="address">
-                            Pizza Plaza
-                            <br>
-                            Dough Road
-                            <br>
-                            Base Town
-                            <br>
-                            7890
-                        </div>    
+                        <strong>twitter /fb /insta </strong> @perfectpizza
+                    </div>
+
+
+                    <div class="address">
+                        Pizza Plaza
+                        <br>
+                        Dough Road
+                        <br>
+                        Base Town
+                        <br>
+                        7890
+                    </div>
                 </div>
             </div>
         </div>

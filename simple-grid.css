@@ -15,6 +15,38 @@ body {
   background-color: #03071e;
   font-size: 0.75em;
 }
+
+/* button colour  */
+.fa-solid {
+  background-color: #03071e; 
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  border-radius: 12em;
+  cursor: pointer;
+}
+.button {
+  background-color: #03071e; 
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  border-radius: 12em;
+  cursor: pointer;
+}
+img {
+  border-radius: 50%;
+}
+
 /* Table style for Cart */
 .cart {
   /* position: fixed; */
@@ -88,11 +120,11 @@ body {
 }
 
 .medium {
-  background-color: #dc2f02;
+  background-color: #e85d04;
 }
 
 .large {
-  background-color: #d00000;
+  background-color: #dc2f02;
   flex : 2;
 }
 
@@ -130,7 +162,7 @@ body {
 /*   border: 1px solid;
    */  margin-top: 1em;
   padding: 1em;
-  background-color: #e85d04;
+  background-color: #9d0208;
 }
 
 
@@ -163,7 +195,7 @@ body {
 
 * {
   font-family: 'Lato', Helvetica, sans-serif;
-  color: #333447;
+  color: black;
   line-height: 1.5;
 }
 
